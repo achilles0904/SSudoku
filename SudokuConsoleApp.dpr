@@ -9,10 +9,8 @@ uses
   SudokuUnit in 'SudokuUnit.pas';
 
 begin
-  try
-    { TODO -oUser -cConsole Main : Insert code here }
-  except
-    on E: Exception do
-      Writeln(E.ClassName, ': ', E.Message);
-  end;
+  var TestBoard: SudokuBoard;
+  TestBoard := SudokuBoard.create('050314060870009403643507192007805210410900000025061907790250840004096005030108670');
+
+  Readln;
 end.
