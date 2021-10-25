@@ -1,0 +1,36 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{C3FCC036-A07D-4345-8DEE-47EFD7F6C739}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="SudokuConsoleApp.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="SudokuConsoleApp">
+        <MSBuild Projects="SudokuConsoleApp.dproj"/>
+    </Target>
+    <Target Name="SudokuConsoleApp:Clean">
+        <MSBuild Projects="SudokuConsoleApp.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="SudokuConsoleApp:Make">
+        <MSBuild Projects="SudokuConsoleApp.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="SudokuConsoleApp"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="SudokuConsoleApp:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="SudokuConsoleApp:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
