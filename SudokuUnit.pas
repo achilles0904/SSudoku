@@ -10,6 +10,8 @@ type
     val: Char;
     ques: Boolean;
     solved: Boolean;
+  public
+    procedure IncVal;
   end;
 
 type
@@ -18,9 +20,10 @@ type
     cells: array [0..9, 0..9] of Cell;
     filled: Byte;
   public
-    constructor create(i: string);
-    destructor destroy;
-    procedure solve();
+    constructor Create(i: string);
+    destructor Destroy;
+    procedure Solve;
+    function CheckConstraint(y, x: Byte): Boolean;
   end;
 
 type
@@ -30,19 +33,20 @@ implementation
 
 { SudokuBoard }
 
-destructor SudokuBoard.destroy;
+destructor SudokuBoard.Destroy;
 begin
   //Board destroyed
 end;
 
-procedure SudokuBoard.solve;
+procedure SudokuBoard.Solve;
 begin
   while filled <> 81 do begin
     for var y := 0 to 8 do begin
       for var x := 0 to 8 do begin
         if not(cells[y][x].ques) then begin
           if not(cells[y][x].solved) then begin
-
+            cells[y][x].IncVal;
+            CheckConstraint(y, x);
           end;
         end;
       end;
@@ -50,7 +54,57 @@ begin
   end;
 end;
 
-constructor SudokuBoard.create(i: string);
+function SudokuBoard.CheckConstraint(y, x: Byte): Boolean;
+begin
+  //Check row
+  for var i := 0 to 8 do begin
+    for var j := 0 to 8 do begin
+      if (i <> j) then begin
+        if (cells[y][j].val = cells[y][i].val) and (cells[y][j].val <> '0') then begin
+          Result := False;
+          Exit;
+        end;
+      end;
+    end;
+  end;
+
+  //Check column
+    for var i := 0 to 8 do begin
+    for var j := 0 to 8 do begin
+      if (i <> j) then begin
+        if (cells[j][x].val = cells[i][x].val) and (cells[j][x].val <> '0') then begin
+          Result := False;
+          Exit;
+        end;
+      end;
+    end;
+  end;
+
+  //Check 3x3
+  var bx, by: Byte;
+  while ((x + 1) mod 3 <> 0) do Inc(x);
+  bx := x;
+  while ((y + 1) mod 3 <> 0) do Inc(y);
+  by := y;
+  for var j := (by - 2) to by do begin
+    for var i := (bx - 2) to bx do begin
+      for var l := j to by do begin
+        for var k := (bx - 2) to bx do begin
+          if not((i = k) and (j = l)) then begin
+            if (cells[j][i].val = cells[l][k].val) and (cells[j][i].val <> '0') then begin
+              Result := False;
+              Exit;
+            end;
+          end;
+        end;
+      end;
+    end;
+  end;
+
+  Result := True;
+end;
+
+constructor SudokuBoard.Create(i: string);
 begin
   if i.length <> 81 then raise ESudokuFormat.Create('Invalid Input');
   var c: Byte := 1;
@@ -74,6 +128,14 @@ begin
     end;
     Writeln;
   end;
+end;
+
+{ Cell }
+
+procedure Cell.IncVal;
+begin
+  if val = '9' then raise ESudokuFormat.Create('Unsolvable');
+  val := Char(Ord(val) + 1);
 end;
 
 end.
