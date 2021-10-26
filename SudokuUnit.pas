@@ -5,25 +5,25 @@ interface
 uses System.SysUtils;
 
 type
-  Cell = record
+  Cell = packed record
   private
     val: Char;
     ques: Boolean;
     solved: Boolean;
   public
-    procedure IncVal;
+    function IncVal: Boolean; inline;
   end;
 
 type
   SudokuBoard = class
   private
     cells: array [0..9, 0..9] of Cell;
-    filled: Byte;
   public
     constructor Create(i: string);
     destructor Destroy;
     procedure Solve;
-    function CheckConstraint(y, x: Byte): Boolean;
+    function CheckConstraint(y, x: Byte): Boolean; inline;
+    procedure Print;
   end;
 
 type
@@ -38,19 +38,58 @@ begin
   //Board destroyed
 end;
 
-procedure SudokuBoard.Solve;
+procedure SudokuBoard.Print;
 begin
-  while filled <> 81 do begin
-    for var y := 0 to 8 do begin
-      for var x := 0 to 8 do begin
-        if not(cells[y][x].ques) then begin
-          if not(cells[y][x].solved) then begin
-            cells[y][x].IncVal;
-            CheckConstraint(y, x);
+  for var y := 0 to 8 do begin
+    for var x := 0 to 8 do begin
+      Write(cells[y][x].val + ' ');
+    end;
+    Writeln;
+  end;
+end;
+
+procedure SudokuBoard.Solve;
+var
+  x, y: ShortInt;
+  back: Boolean;
+begin
+  x := 0;
+  y := 0;
+  back := False;
+  while y <= 8 do begin
+    if not(back) then x := 0;
+    while x <= 8 do begin
+      back := False;
+      if not(cells[y][x].ques) then begin
+        if not(cells[y][x].solved) then begin
+          while cells[y][x].IncVal do begin
+            if CheckConstraint(y, x) then begin
+              cells[y][x].solved := True;
+              break;
+            end;
+          end;
+          //Back tracking
+          if cells[y][x].val = '0' then begin
+            cells[y][x].solved := False;
+            repeat
+              Dec(x);
+              if x < 0 then begin
+                Dec(y);
+                if y < 0 then raise ESudokuFormat.Create('Unsolvable');
+                x := 8;
+              end;
+              back := True;
+            until (not(cells[y][x].ques));
+            if back then begin
+              cells[y][x].solved := False;
+              break;
+            end;
           end;
         end;
       end;
+      if not(back) then Inc(x);
     end;
+    if not(back) then Inc(y);
   end;
 end;
 
@@ -108,7 +147,6 @@ constructor SudokuBoard.Create(i: string);
 begin
   if i.length <> 81 then raise ESudokuFormat.Create('Invalid Input');
   var c: Byte := 1;
-  filled := 0;
 
   for var y := 0 to 8 do begin
     for var x := 0 to 8 do begin
@@ -120,7 +158,6 @@ begin
         end else begin
           cells[y][x].ques := True;
           cells[y][x].solved := True;
-          Inc(filled);
         end;
         Write(cells[y][x].val + ' ');
         Inc(c);
@@ -132,10 +169,15 @@ end;
 
 { Cell }
 
-procedure Cell.IncVal;
+function Cell.IncVal: Boolean;
 begin
-  if val = '9' then raise ESudokuFormat.Create('Unsolvable');
+  if val = '9' then begin
+    Result := False;
+    val := '0';
+    Exit;
+  end;
   val := Char(Ord(val) + 1);
+  Result := True;
 end;
 
 end.
