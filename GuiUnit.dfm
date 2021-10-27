@@ -7713,6 +7713,7 @@ object Form1: TForm1
     ParentFont = False
     ScrollBars = ssNone
     TabOrder = 0
+    OnDrawCell = StringGrid1DrawCell
     OnSetEditText = StringGrid1SetEditText
   end
   object Button1: TButton

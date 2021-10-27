@@ -19,6 +19,8 @@ type
     procedure Button2Click(Sender: TObject);
     procedure StringGrid1SetEditText(Sender: TObject; ACol, ARow: Integer;
       const Value: String);
+    procedure StringGrid1DrawCell(Sender: TObject; ACol, ARow: Integer;
+      Rect: TRect; State: TGridDrawState);
   private
     { Private declarations }
   public
@@ -62,6 +64,17 @@ begin
     for var j := 0 to 8 do begin
       StringGrid1.Cells[i, j] := '';
     end;
+  end;
+end;
+
+procedure TForm1.StringGrid1DrawCell(Sender: TObject; ACol, ARow: Integer;
+  Rect: TRect; State: TGridDrawState);
+begin
+  with StringGrid1.Canvas do
+  begin
+    Font.Color := clBlue;
+    Font.Style := [fsBold];
+    TextRect(Rect, Rect.Left + 18 , Rect.Top + 10 ,StringGrid1.Cells[ACol, ARow]);
   end;
 end;
 
