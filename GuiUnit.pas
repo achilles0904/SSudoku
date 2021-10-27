@@ -40,8 +40,8 @@ begin
   var Board: SudokuBoard;
   for var i := 0 to 8 do begin
     for var j := 0 to 8 do begin
-      if StringGrid1.Cells[i, j].IsEmpty then Value := value + '0'
-      else value := value + StringGrid1.Cells[i, j];
+      if StringGrid1.Cells[j, i].IsEmpty then Value := value + '0'
+      else value := value + StringGrid1.Cells[j, i];
     end;
   end;
   Board := SudokuBoard.Create(value);
@@ -49,7 +49,7 @@ begin
   var c: Byte := 1;
   for var i := 0 to 8 do begin
     for var j := 0 to 8 do begin
-      StringGrid1.Cells[i, j] := Board.print[c];
+      StringGrid1.Cells[j, i] := Board.print[c];
       Inc(c);
     end;
   end;
@@ -60,7 +60,7 @@ procedure TForm1.Button2Click(Sender: TObject);
 begin
   for var i := 0 to 8 do begin
     for var j := 0 to 8 do begin
-      StringGrid1.Cells[i, j] := '';
+      StringGrid1.Cells[j, i] := '';
     end;
   end;
 end;
