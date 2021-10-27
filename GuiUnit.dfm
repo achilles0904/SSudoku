@@ -7720,6 +7720,7 @@ object Form1: TForm1
     Top = 440
     Width = 138
     Height = 73
+    Anchors = [akTop, akRight]
     Caption = 'Solve'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -7735,6 +7736,7 @@ object Form1: TForm1
     Top = 296
     Width = 138
     Height = 73
+    Anchors = [akTop, akRight]
     Caption = 'Clear'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
