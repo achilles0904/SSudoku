@@ -84,7 +84,6 @@ begin
   with Sender as TStringGrid do begin
     if (length(value) > 1) then begin
       Cells[ACol,ARow] := copy(value,1,length (value)-1);
-      EditorMode := true;
     end
     else if not((Cells[Acol, ARow] = '1') or (Cells[Acol, ARow] = '2') or (Cells[Acol, ARow] = '3') or (Cells[Acol, ARow] = '4') or (Cells[Acol, ARow] = '5') or (Cells[Acol, ARow] = '6') or (Cells[Acol, ARow] = '7') or (Cells[Acol, ARow] = '8') or (Cells[Acol, ARow] = '9')) then
       Cells[ACol,ARow] := '';
