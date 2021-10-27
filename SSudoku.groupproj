@@ -6,6 +6,9 @@
         <Projects Include="SudokuConsoleApp.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="SudokuGuiApp.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -23,14 +26,23 @@
     <Target Name="SudokuConsoleApp:Make">
         <MSBuild Projects="SudokuConsoleApp.dproj" Targets="Make"/>
     </Target>
+    <Target Name="SudokuGuiApp">
+        <MSBuild Projects="SudokuGuiApp.dproj"/>
+    </Target>
+    <Target Name="SudokuGuiApp:Clean">
+        <MSBuild Projects="SudokuGuiApp.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="SudokuGuiApp:Make">
+        <MSBuild Projects="SudokuGuiApp.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="SudokuConsoleApp"/>
+        <CallTarget Targets="SudokuConsoleApp;SudokuGuiApp"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="SudokuConsoleApp:Clean"/>
+        <CallTarget Targets="SudokuConsoleApp:Clean;SudokuGuiApp:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="SudokuConsoleApp:Make"/>
+        <CallTarget Targets="SudokuConsoleApp:Make;SudokuGuiApp:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

@@ -23,7 +23,7 @@ type
     destructor Destroy;
     procedure Solve;
     function CheckConstraint(y, x: Byte): Boolean; inline;
-    procedure Print;
+    function Print: string;
   end;
 
 type
@@ -38,13 +38,13 @@ begin
   //Board destroyed
 end;
 
-procedure SudokuBoard.Print;
+function SudokuBoard.Print: string;
 begin
+  Result := '';
   for var y := 0 to 8 do begin
     for var x := 0 to 8 do begin
-      Write(cells[y][x].val + ' ');
+      Result := Result + cells[y][x].val;
     end;
-    Writeln;
   end;
 end;
 
@@ -97,7 +97,7 @@ function SudokuBoard.CheckConstraint(y, x: Byte): Boolean;
 begin
   //Check row
   for var i := 0 to 8 do begin
-    for var j := 0 to 8 do begin
+    for var j := i to 8 do begin
       if (i <> j) then begin
         if (cells[y][j].val = cells[y][i].val) and (cells[y][j].val <> '0') then begin
           Result := False;
@@ -109,7 +109,7 @@ begin
 
   //Check column
     for var i := 0 to 8 do begin
-    for var j := 0 to 8 do begin
+    for var j := i to 8 do begin
       if (i <> j) then begin
         if (cells[j][x].val = cells[i][x].val) and (cells[j][x].val <> '0') then begin
           Result := False;
@@ -159,11 +159,9 @@ begin
           cells[y][x].ques := True;
           cells[y][x].solved := True;
         end;
-        Write(cells[y][x].val + ' ');
         Inc(c);
       end else raise ESudokuFormat.Create('Invalid Input');
     end;
-    Writeln;
   end;
 end;
 
