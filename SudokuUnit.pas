@@ -94,48 +94,43 @@ begin
 end;
 
 function SudokuBoard.CheckConstraint(y, x: Byte): Boolean;
+var charArr: array [0..9] of Char;
 begin
   //Check row
   for var i := 0 to 8 do begin
-    for var j := i to 8 do begin
-      if (i <> j) then begin
-        if (cells[y][j].val = cells[y][i].val) and (cells[y][j].val <> '0') then begin
-          Result := False;
-          Exit;
-        end;
+    for var j := (i + 1) to 8 do begin
+      if (cells[y][j].val = cells[y][i].val) and (cells[y][j].val <> '0') then begin
+        Result := False;
+        Exit;
       end;
     end;
   end;
 
   //Check column
-    for var i := 0 to 8 do begin
-    for var j := i to 8 do begin
-      if (i <> j) then begin
-        if (cells[j][x].val = cells[i][x].val) and (cells[j][x].val <> '0') then begin
-          Result := False;
-          Exit;
-        end;
+  for var i := 0 to 8 do begin
+    for var j := (i + 1) to 8 do begin
+      if (cells[j][x].val = cells[i][x].val) and (cells[j][x].val <> '0') then begin
+        Result := False;
+        Exit;
       end;
     end;
   end;
 
   //Check 3x3
-  var bx, by: Byte;
   while ((x + 1) mod 3 <> 0) do Inc(x);
-  bx := x;
   while ((y + 1) mod 3 <> 0) do Inc(y);
-  by := y;
-  for var j := (by - 2) to by do begin
-    for var i := (bx - 2) to bx do begin
-      for var l := j to by do begin
-        for var k := (bx - 2) to bx do begin
-          if not((i = k) and (j = l)) then begin
-            if (cells[j][i].val = cells[l][k].val) and (cells[j][i].val <> '0') then begin
-              Result := False;
-              Exit;
-            end;
-          end;
-        end;
+  var c: Byte := 0;
+  for var j := (y - 2) to y do begin
+    for var i := (x - 2) to x do begin
+      charArr[c] := cells[j][i].val;
+      Inc(c);
+    end;
+  end;
+  for var i := 0 to 8 do begin
+    for var j := (i + 1) to 8 do begin
+      if (charArr[i] = charArr[j]) and (charArr[i] <> '0') then begin
+        Result := False;
+        Exit;
       end;
     end;
   end;
