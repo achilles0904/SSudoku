@@ -3,7 +3,7 @@ object Form1: TForm1
   Top = 0
   Caption = 'SSUDOKU'
   ClientHeight = 784
-  ClientWidth = 895
+  ClientWidth = 905
   Color = clWhite
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -2209,14 +2209,15 @@ object Form1: TForm1
     7063C5B3C34F5125A8EF45AADC1A4B6624F3870E530C06AE640B1F30C67EAB94
     DE0B96726A81227313A8A5E7DDD33040AA59F50481C0D3894207DBF7ECF3FF3F
     5BA93EAC42C3C9A20000000049454E44AE426082}
+  OnCreate = FormCreate
   PixelsPerInch = 96
   DesignSize = (
-    895
+    905
     784)
   TextHeight = 15
   object Image1: TImage
     AlignWithMargins = True
-    Left = -2
+    Left = 3
     Top = 3
     Width = 889
     Height = 182
@@ -7686,9 +7687,10 @@ object Form1: TForm1
       BD2EF6FA5BA556238410420821847850F00DC061F9E2A8050921841042087933
       A1E01B806C9ADE4125D3C4490839E0B8DDF16168AFF67F3A0EC37B26841042DE
       44FE0F7679C9426B4C12390000000049454E44AE426082}
+    ExplicitLeft = -2
   end
   object StringGrid1: TStringGrid
-    Left = 270
+    Left = 259
     Top = 296
     Width = 379
     Height = 377
@@ -7713,10 +7715,11 @@ object Form1: TForm1
     ParentFont = False
     ScrollBars = ssNone
     TabOrder = 0
+    OnDrawCell = StringGrid1DrawCell
     OnSetEditText = StringGrid1SetEditText
   end
   object Button1: TButton
-    Left = 719
+    Left = 729
     Top = 440
     Width = 138
     Height = 73
@@ -7730,9 +7733,10 @@ object Form1: TForm1
     ParentFont = False
     TabOrder = 1
     OnClick = Button1Click
+    ExplicitLeft = 719
   end
   object Button2: TButton
-    Left = 719
+    Left = 729
     Top = 296
     Width = 138
     Height = 73
@@ -7746,5 +7750,6 @@ object Form1: TForm1
     ParentFont = False
     TabOrder = 2
     OnClick = Button2Click
+    ExplicitLeft = 719
   end
 end
