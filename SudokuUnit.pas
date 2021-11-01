@@ -158,6 +158,13 @@ begin
       end else raise ESudokuFormat.Create('Invalid Input');
     end;
   end;
+
+  //Check solvable or not after creating straight
+  for var y := 0 to 8 do begin
+    for var x := 0 to 8 do
+      if not checkConstraint(y, x) then raise ESudokuFormat.Create('Unsolvable');
+  end;
+
 end;
 
 { Cell }
